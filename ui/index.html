@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K8s Data Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Kubernetes Microservices</h1>
+
+        <div class="grid">
+            <div class="card c-lang">
+                <h2>Stack (Pure C)</h2>
+                <div id="stack-data" class="output">Waiting...</div>
+            </div>
+            <div class="card java-lang">
+                <h2>Linked List (Java)</h2>
+                <div id="list-data" class="output">Waiting...</div>
+            </div>
+            <div class="card py-lang">
+                <h2>Graph (Python)</h2>
+                <pre id="graph-data" class="output">Waiting...</pre>
+            </div>
+        </div>
+
+        <button id="refresh-btn">Fetch Data</button>
+        <div id="error-msg"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

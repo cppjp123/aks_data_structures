@@ -4,24 +4,30 @@ metadata:
   name: main-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
+    # GLOBAL REWRITE: This tells Nginx to always use the "2nd group" of the regex path
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
     - http:
         paths:
-          # UI on /
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ui-service
-                port:
-                  number: 80
-
-          # Backend on /api
-          - path: /api
-            pathType: Prefix
+          # 1. API Path: /api/dashboard
+          # Group 1: (/|$)  -> matches the slash
+          # Group 2: (.*)   -> matches "dashboard" (This is what gets sent)
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: backend-service
                 port:
                   number: 5000
+
+          # 2. UI Path: /app.js or /
+          # Group 1: ()     -> A dummy empty group (to align with the API logic)
+          # Group 2: (.*)   -> matches "app.js" (This is what gets sent)
+          - path: /()(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ui-service
+                port:
+                  number: 80
